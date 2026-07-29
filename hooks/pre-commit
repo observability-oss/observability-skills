@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Keeps the per-skill copies of references/mcp.md in step with the source.
+#
+# This repo has no CI, by design — it is consumed by a repo that does. So the
+# staleness check runs here instead, and regenerates rather than only
+# complaining: a check you can forget to act on is a check that eventually
+# ships stale content.
+#
+# Install once per clone:  git config core.hooksPath hooks
+
+set -euo pipefail
+
+command -v python3 >/dev/null 2>&1 || {
+  echo "pre-commit: python3 not found, skipping mcp.md sync check" >&2
+  exit 0
+}
+
+if ! python3 scripts/sync_skill_refs.py --check >/dev/null 2>&1; then
+  echo "pre-commit: regenerating skill copies of references/mcp.md"
+  python3 scripts/sync_skill_refs.py
+  git add skills/*/references/mcp.md
+  echo "pre-commit: regenerated and staged — review with 'git diff --cached'"
+fi
