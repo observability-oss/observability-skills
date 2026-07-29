@@ -13,7 +13,7 @@ which consumes this repo.
 
 | Skill | What it does |
 |---|---|
-| `instrument-agent` | Adds instrumentation to an existing Python / TypeScript / .NET agent, then verifies spans arrive |
+| `instrument-agent` | Adds instrumentation to an existing Python / TypeScript / .NET agent, then hands off to confirm traces at observability.progress.com |
 | `health-check` | Checks whether a service is reporting, and what shape its traces have |
 | `trace-triage` | Diagnoses a failing or suspicious trace |
 | `cost-report` | Reports token and cost breakdowns from recorded spans |
@@ -43,9 +43,10 @@ bundle — use the plugin repo linked above.
 
 ## Configuration
 
-Every skill except the code-writing parts of `instrument-agent` reads the
-platform through the Progress Observability MCP server. Two different keys are
-involved and they are not interchangeable:
+Every skill except `instrument-agent` reads the platform through the Progress
+Observability MCP server (`instrument-agent` only writes instrumentation code and
+never reads back). Two different keys are involved and they are not
+interchangeable:
 
 | Key | Prefix | Used by |
 |---|---|---|
