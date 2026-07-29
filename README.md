@@ -1,6 +1,6 @@
 # observability-skills
 
-Agent skills for the [Progress Observability](https://www.progress.com/agentic-rag)
+Agent skills for the [Progress Observability](https://www.telerik.com/ai-observability-platform)
 platform. Six skills, each self-contained, installable individually or together.
 
 This repo is the **canonical source for skill content**. Packaging — the Claude
