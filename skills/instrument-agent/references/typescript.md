@@ -92,16 +92,15 @@ Rules for the set, all measured:
 - Re-check this section against any release past 2.1.2 — it is a workaround,
   not intended API; once fixed, `instruments` is optional again.
 
-**Why it happens**, since the trigger is not obvious. The SDK looks for the
-app's own `@langchain/core`; if it finds one, it takes over LangChain tracing
-and — unless `OPENAI` or `AZURE_OPENAI` is named in `instruments` — disables
-the provider instrumentors to avoid double-counting, narrowing the run to
-LangChain alone. The trap is that `@langchain/core` arrives as a transitive
-dependency of the SDK and npm hoists it to top level, so the lookup succeeds
-in projects that never asked for LangChain (verified: a package.json declaring
-only `@progress/observability` resolves it). Naming the provider in
-`instruments` is the fix; `blockInstruments: new Set([ObservabilityInstruments.LANGCHAIN])`
-also works by stopping the takeover at the source.
+**Why it happens.** The SDK looks for the app's own `@langchain/core`; finding
+one, it takes over LangChain tracing and — unless `OPENAI` or `AZURE_OPENAI`
+is named in `instruments` — disables the provider instrumentors to avoid
+double-counting, narrowing the run to LangChain alone. The lookup succeeds
+even when nothing in `package.json` mentions LangChain, because
+`@langchain/core` arrives as a transitive dependency of the SDK and npm hoists
+it to top level. Besides naming the provider, `blockInstruments` with
+`ObservabilityInstruments.LANGCHAIN` also clears it, by stopping the takeover
+before the provider instrumentors are disabled.
 
 Run with `tsx bootstrap.ts` (or node with a TS loader). Alternative without a
 bootstrap file: hooks import at the very top of the entry point, instrumented
