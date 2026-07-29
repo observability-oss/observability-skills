@@ -43,11 +43,9 @@ Observability.instrument(
 process and changes whenever that command does. The same app then reports
 under several identities, and nothing about the run looks wrong.
 
-`OBSERVABILITY_APP_NAME` **overrides the argument**, so the `os.environ.get`
-above is belt-and-braces rather than mechanism — the SDK reads that variable
-whatever the code passes. Worth knowing in both directions: a value set in the
-environment silently wins over an explicit `app_name=` in code. (.NET is the
-other way round — the option wins there.)
+`OBSERVABILITY_APP_NAME` overrides the argument, so the `os.environ.get` above
+is documentation rather than mechanism. It also means a value in the
+environment silently beats an explicit `app_name=` in code.
 
 Every option can instead come from the environment (`Observability.instrument()`
 with no arguments):
