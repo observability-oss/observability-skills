@@ -17,8 +17,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "references" / "mcp.md"
 
-# scaffold-agent makes no MCP calls and is intentionally excluded.
-# instrument-agent writes code but verifies over MCP, so it carries the contract.
+# Listed explicitly rather than globbed over skills/: a skill that never calls
+# the platform should not carry the contract. instrument-agent is here because
+# although it mainly writes code, its verify step reads back over MCP.
 MCP_SKILLS = ["trace-triage", "cost-report", "coverage-gaps", "generate-eval", "health-check", "instrument-agent"]
 
 BANNER = (
