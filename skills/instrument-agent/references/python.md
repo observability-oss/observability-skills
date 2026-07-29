@@ -39,11 +39,9 @@ Observability.instrument(
 ```
 
 **Always pass `app_name`.** Omitting it is not an error: it defaults to
-`sys.argv[0]`, so the service lands on the platform named after whatever path
-started the process — `app.py` here, `/srv/app/main.py` there, the uvicorn
-binary under a server. The identity then changes with how the app is launched,
-which is worse than a wrong-but-stable name because nothing looks broken and
-the history splits across names.
+`sys.argv[0]`, so the service is named after the path that launched the
+process and changes whenever that command does. The same app then reports
+under several identities, and nothing about the run looks wrong.
 
 Every option can instead come from the environment (`Observability.instrument()`
 with no arguments):
