@@ -64,12 +64,10 @@ environment silently beats an explicit `appName`.
 
 ### Then add `instruments` — required for direct provider SDKs
 
-**The 2.1.2 default init instruments LangChain and nothing else.** (SDK
-defect: its consumer-LangChain probe resolves the `@langchain/core` shipped
-inside the SDK itself, so it fires in every project and suppresses the other
-instrumentors.) An app calling `openai`, `@anthropic-ai/sdk`, `@google/genai`,
-Bedrock or Cohere directly emits **zero spans** — no error, clean shutdown.
-Name what the app uses:
+**The 2.1.2 default init instruments LangChain and nothing else.** An app
+calling `openai`, `@anthropic-ai/sdk`, `@google/genai`, Bedrock or Cohere
+directly emits **zero spans** — no error, clean shutdown. Name what the app
+uses:
 
 ```typescript
 import { Observability, ObservabilityInstruments } from '@progress/observability';
@@ -93,6 +91,17 @@ Rules for the set, all measured:
   each LLM call.
 - Re-check this section against any release past 2.1.2 — it is a workaround,
   not intended API; once fixed, `instruments` is optional again.
+
+**Why it happens**, since the trigger is not obvious. The SDK looks for the
+app's own `@langchain/core`; if it finds one, it takes over LangChain tracing
+and — unless `OPENAI` or `AZURE_OPENAI` is named in `instruments` — disables
+the provider instrumentors to avoid double-counting, narrowing the run to
+LangChain alone. The trap is that `@langchain/core` arrives as a transitive
+dependency of the SDK and npm hoists it to top level, so the lookup succeeds
+in projects that never asked for LangChain (verified: a package.json declaring
+only `@progress/observability` resolves it). Naming the provider in
+`instruments` is the fix; `blockInstruments: new Set([ObservabilityInstruments.LANGCHAIN])`
+also works by stopping the takeover at the source.
 
 Run with `tsx bootstrap.ts` (or node with a TS loader). Alternative without a
 bootstrap file: hooks import at the very top of the entry point, instrumented
