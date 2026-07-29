@@ -83,6 +83,9 @@ git config core.hooksPath hooks
 
 ## Contributing
 
+Skill content has a house style — see [STYLE.md](STYLE.md). It is short, and
+every rule in it is there because the mistake kept recurring.
+
 Two things here are consumed by name from the plugin repo, so changing them is
 a breaking change rather than a rename:
 
