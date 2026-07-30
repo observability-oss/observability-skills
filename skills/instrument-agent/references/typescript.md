@@ -185,7 +185,7 @@ Get any of these wrong and the wiring silently does nothing:
 3. **`await Observability.shutdown()` before the process exits**, in the
    `finally` under *Flush on exit* — never a handler assembled by hand.
 
-## Env vars (same contract as Python)
+## Env vars
 
 `OBSERVABILITY_APP_NAME`, `OBSERVABILITY_API_KEY`, `OBSERVABILITY_ENDPOINT`
 (has a default — usually omit), `OBSERVABILITY_TRACE_CONTENT=false` (stop
