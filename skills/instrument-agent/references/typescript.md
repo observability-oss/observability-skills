@@ -217,10 +217,10 @@ OpenAI SDK, `configuration: { baseURL }` in LangChain. The platform records
 the real provider. So "my provider isn't on the list" is usually wrong — check
 whether it speaks the OpenAI API.
 
-**Not auto-instrumented: LangGraph.js, Mastra, the Vercel AI SDK.** The JS SDK
-ships fewer instrumentors than Python's (where LangGraph rides the LangChain
-instrumentor — not here). Say so plainly, then offer `wrapFunctionWithSpan` or
-the decorators below for structure.
+**Not auto-instrumented: LangGraph.js, Mastra, the Vercel AI SDK.**
+LangGraph.js does **not** ride the LangChain instrumentor — a LangGraph app
+gets no graph structure from it. Say so plainly, then offer
+`wrapFunctionWithSpan` or the decorators below for structure.
 
 ## Structure without a framework — spans with no LLM call
 
