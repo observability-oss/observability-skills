@@ -312,9 +312,9 @@ not a substitute for the `finally`.
 
 ## What arrives on the platform (verified)
 
-JS span names are prefixed with their kind — `workflow <name>`, `chat <model>`
-— unlike Python's `<name>` / `openai.chat`. When verifying, match on the kind
-(`llm_call`, `workflow`) or a kind-safe substring, never on a model name.
+Span names are prefixed with their kind — `workflow <name>`, `chat <model>`.
+When verifying, match on the kind (`llm_call`, `workflow`) or a kind-safe
+substring, never on a model name.
 LangChain under this SDK reports **full chain hierarchy** in a single trace
 (`workflow RunnableSequence` → prompt/parser workflows + `chat <model>` with
 provider, tokens, and cost) — report that depth; flat LLM-only spans instead
