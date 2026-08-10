@@ -101,10 +101,11 @@ Rules that hold across all three:
 - **Init at process start, before any LLM client exists.** In ESM Node that
   means the hooks import and `Observability.instrument()` run before the app is
   even imported; in Python, before the LLM and framework imports — not merely
-  before clients are constructed. Whether a given import binds unwrappable
-  references at import time is not something you can classify reliably, so the
-  default removes the judgment call; `# noqa: E402` on the displaced imports
-  is the accepted cost. In .NET, before the agent is built. **Two exceptions,
+  before clients are constructed. An import can bind references that later
+  patching never reaches, and which imports do that is not classifiable from
+  the outside, so the default removes the judgment call; `# noqa: E402` on
+  the displaced imports is the accepted cost. In .NET, before the agent is
+  built. **Two exceptions,
   both in the language references:** an app that installs its own
   OpenTelemetry provider (init goes after that), and Haystack (init goes
   after `import haystack.tracing`). Check the reference before assuming
